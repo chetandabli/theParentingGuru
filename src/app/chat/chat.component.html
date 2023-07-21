@@ -1,0 +1,39 @@
+<!-- Chat Interface -->
+<div class="chat-container">
+    <!-- Left Sidebar: List of Chats -->
+    <div class="chat-sidebar">
+      <mat-list>
+        <!-- Display all chat threads with their first questions -->
+        <mat-list-item class="chat-list" *ngFor="let chat of chatHistory" (click)="openChat(chat)">
+          {{ chat.chat_thread[0].content }}
+        </mat-list-item>
+      </mat-list>
+  
+      <!-- Create New Chat Button -->
+      <button mat-stroked-button color="primary" (click)="createNewChat()">Create New Chat</button>
+    </div>
+  
+    <!-- Right Chat Area -->
+    <div class="chat-main">
+      <div class="chat-header">
+        <h2>{{ selectedChat ? selectedChat.chat_thread[0].content : '' }}</h2>
+      </div>
+  
+      <div class="chat-history">
+        <div class="message" *ngFor="let message of selectedChat?.chat_thread">
+          <div class="message-content" [ngClass]="{ 'user-message': message.role === 'user', 'assistant-message': message.role === 'assistant' }">
+            {{ message.content }}
+          </div>
+        </div>
+      </div>
+  
+      <!-- Chat Input -->
+      <mat-form-field class="chat-input">
+        <input matInput [(ngModel)]="messageInput" placeholder="Type your question here" />
+        <button mat-icon-button (click)="sendQuestion()" color="primary">
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  
