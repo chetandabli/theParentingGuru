@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -12,7 +13,7 @@ export class ChatComponent implements OnInit {
   messageInput: string = '';
   loggedInUserName: string = ''; // Add a variable to store the name of the logged-in user
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     // Fetch the logged-in user's name from localStorage
@@ -31,7 +32,7 @@ export class ChatComponent implements OnInit {
       // Handle the case when the user is not authenticated or the token has expired.
       console.error('User is not authenticated or token has expired.');
       // Redirect to the auth page if needed
-      // this.router.navigate(['/auth']); // Don't forget to import the Router service.
+      this.router.navigate(['/auth'])
       return;
     }
 
@@ -62,8 +63,7 @@ export class ChatComponent implements OnInit {
         (error) => {
           // Handle errors appropriately, e.g., redirect to auth page for token expiration.
           console.error('Error fetching chat history:', error);
-          // Redirect to the auth page if needed
-          // this.router.navigate(['/auth']); // Don't forget to import the Router service.
+          this.router.navigate(['/auth'])
         }
       );
   }
