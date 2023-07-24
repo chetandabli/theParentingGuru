@@ -68,8 +68,8 @@ The application is composed of the following components:
 - `LoginComponent`: Displayed within the `AuthComponent` for user login.
 - `SignupComponent`: Displayed within the `AuthComponent` for user signup.
 - `ChatComponent`: The main chat interface where users can interact with the chatbot.
-- `AdminLoginPageComponent`: A separate login page for administrators (not specified in detail in the provided code).
-- `AdminDashboardComponent`: A separate dashboard for administrators (not specified in detail in the provided code).
+- `AdminLoginPageComponent`: A separate login page for administrators (work in progress).
+- `AdminDashboardComponent`: A separate dashboard for administrators (work in progress).
 
 ## 6. Services
 
@@ -83,8 +83,8 @@ The application has the following routes:
 
 - `/auth`: The authentication page, displaying the `AuthComponent` with options for login and signup.
 - `/chat`: The chat page, displaying the `ChatComponent`. Users must be logged in to access this page.
-- `/admin-login`: A separate login page for administrators (not specified in detail in the provided code).
-- `/admin-dashboard`: A separate dashboard for administrators (not specified in detail in the provided code).
+- `/admin-login`: A separate login page for administrators.
+- `/admin-dashboard`: A separate dashboard for administrators.
 - All other routes redirect to `/chat` by default.
 
 ## 8. API Endpoints
