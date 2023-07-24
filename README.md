@@ -99,4 +99,7 @@ The application interacts with the following API endpoints:
 
 Note: The actual API endpoints and their functionalities are not included in the provided code and need to be implemented separately to make the chatbot fully functional.
 
+## 9. Quick View
+<a href="https://freeimage.host/i/HQlfbhF"><img src="https://iili.io/HQlfbhF.md.png" alt="HQlfbhF.md.png" border="0"></a>
+
 This documentation provides an overview of the Parenting Advice Chatbot project. To make the application fully functional, you need to implement the missing parts, such as the authentication system, API endpoints, and chatbot logic, based on the project requirements.
