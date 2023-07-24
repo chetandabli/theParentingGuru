@@ -14,6 +14,7 @@ export class ChatComponent implements OnInit {
   messageInput: string = '';
   loggedInUserName: string = ''; 
   isLoggedIn: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private appService: AppService) {}
 
@@ -92,6 +93,7 @@ export class ChatComponent implements OnInit {
     const newQuestion = {
       chat_thread: [{ content: this.messageInput, role: 'user' }]
     };
+    this.isLoading = true;
     if (!user_chat_id && this.chatHistory[0].chat_thread[0].content == "New Chat Started") {
       // If there is no selected chat, create a new one and append only the question to the left sidebar
       this.selectedChat = newQuestion; // Select the newly created chat thread
@@ -125,12 +127,13 @@ export class ChatComponent implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': authToken
     });
-
+    this.isLoading = true;
     this.http.post<any>('https://dark-red-spider-robe.cyclic.app/user/question', body, {
       headers 
     })
       .subscribe(
         (response) => {
+          this.isLoading = false;
           this.selectedChat = response
           for(let i = 0; i < this.chatHistory.length; i++){
             if(this.chatHistory[0].id == this.selectedChat.id){
@@ -141,6 +144,7 @@ export class ChatComponent implements OnInit {
           console.log(this.chatHistory)
         },
         (error) => {
+          this.isLoading = false;
           console.error('Error posting question:', error);
           localStorage.removeItem("name")
           this.loggedInUserName = ""

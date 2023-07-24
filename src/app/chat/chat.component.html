@@ -15,7 +15,7 @@
 </div>
   
     <!-- Right Chat Area -->
-    <div class="chat-main">
+    <div class="chat-main" #chatHistoryContainer>
   
       <div class="chat-history">
         <div class="message" *ngFor="let message of selectedChat?.chat_thread">
@@ -23,6 +23,8 @@
             {{ message.content }}
           </div>
         </div>
+        <div *ngIf="isLoading">Please wait response is taking some time...</div>
+        <div *ngIf="!isLoading">
       </div>
   
       <!-- Chat Input -->
