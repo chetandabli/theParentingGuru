@@ -1,14 +1,16 @@
-<!-- auth.component.html -->
 <div class="auth-container">
-    <button mat-button (click)="showLogin = true" [class.active]="showLogin">Login</button>
-    <button mat-button (click)="showLogin = false" [class.active]="!showLogin">Signup</button>
-  
+  <div class="auth-buttons">
+    <button mat-button (click)="showLogin = true" [class.active]="showLogin" id="login">Login</button>
+    <button mat-button (click)="showLogin = false" [class.active]="!showLogin" id="signup">Signup</button>
+  </div>
+
+  <div class="auth-form">
     <ng-container *ngIf="showLogin">
       <app-login></app-login>
     </ng-container>
-  
+
     <ng-container *ngIf="!showLogin">
       <app-signup></app-signup>
     </ng-container>
   </div>
-  
+</div>

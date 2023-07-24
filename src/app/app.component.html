@@ -1,5 +1,6 @@
 <div class="navbar">
-    <div class="logo">{{ loggedInUserName || 'Anonymous' }}</div>
+    <img src="../assets/logo_navbar.png" alt="Logo" (click)="goHome()">
+    <div class="logo">{{ loggedInUserName || '' }}</div>
     <div class="navbar-buttons">
       <button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
       <button *ngIf="!isLoggedIn" routerLink="/auth">Login</button>

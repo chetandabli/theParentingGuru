@@ -1,23 +1,21 @@
 <!-- Chat Interface -->
 <div class="chat-container">
     <!-- Left Sidebar: List of Chats -->
-    <div class="chat-sidebar">
-      <mat-list>
-        <!-- Display all chat threads with their first questions -->
-        <mat-list-item class="chat-list" *ngFor="let chat of chatHistory" (click)="openChat(chat)">
-          {{ chat.chat_thread[0].content }}
-        </mat-list-item>
-      </mat-list>
-  
-      <!-- Create New Chat Button -->
-      <button mat-stroked-button color="primary" (click)="createNewChat()">Create New Chat</button>
-    </div>
+    <!-- Left Sidebar: List of Chats -->
+<div class="chat-sidebar">
+  <!-- Create New Chat Button -->
+  <button mat-stroked-button color="#2C5F2D" (click)="createNewChat()">Create New Chat</button>
+
+  <mat-list>
+    <!-- Display all chat threads with their first questions -->
+    <mat-list-item class="chat-list" *ngFor="let chat of chatHistory" [ngClass]="{ 'selected-chat': chat === selectedChat }" (click)="openChat(chat)">
+      {{ chat.chat_thread[0].content }}
+    </mat-list-item>
+  </mat-list>
+</div>
   
     <!-- Right Chat Area -->
     <div class="chat-main">
-      <div class="chat-header">
-        <h2>{{ selectedChat ? selectedChat.chat_thread[0].content : '' }}</h2>
-      </div>
   
       <div class="chat-history">
         <div class="message" *ngFor="let message of selectedChat?.chat_thread">

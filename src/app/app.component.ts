@@ -1,38 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  loggedInUserName: string = ''; // Add a variable to store the name of the logged-in user
-  isLoggedIn: boolean = false; // Add a variable to track the user's login status
+export class AppComponent implements OnInit, OnDestroy {
+  title: String = "The Parenting Guru"
+  loggedInUserName: string = ''; 
+  isLoggedIn: boolean = true;
+  private authTokenSubscription: Subscription = new Subscription();
+  private loggedInUserNameSubscription: Subscription = new Subscription();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private appService: AppService) {}
 
   ngOnInit(): void {
     // Fetch the logged-in user's name from localStorage
-    const loggedInUserName = localStorage.getItem("name");
-    if (loggedInUserName) {
-      this.loggedInUserName = loggedInUserName;
-    }
+    this.loggedInUserName = this.appService.getLoggedInUserName();
 
-    // Check if the authToken is present in localStorage and update isLoggedIn accordingly
-    const authToken = localStorage.getItem("authToken");
-    if (authToken) {
-      this.isLoggedIn = true;
-    } else {
-      this.isLoggedIn = false;
-    }
+    // Subscribe to the authTokenSubject to get notified of changes
+    this.authTokenSubscription = this.appService.getAuthTokenSubject().subscribe((token: string) => {
+      if (token) {
+        this.loggedInUserName = this.appService.getLoggedInUserName();
+        this.isLoggedIn = true;
+      } else {
+        this.loggedInUserName = '';
+        this.isLoggedIn = false;
+      }
+    });
+
+    // Subscribe to the loggedInUserNameSubject to get notified of changes
+    this.loggedInUserNameSubscription = this.appService.getLoggedInUserNameSubject().subscribe((userName: string) => {
+      this.loggedInUserName = userName;
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Don't forget to unsubscribe to prevent memory leaks
+    this.authTokenSubscription.unsubscribe();
+    this.loggedInUserNameSubscription.unsubscribe();
   }
 
   logout() {
     // Clear the authToken and update the login status to false
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("name");
+    this.appService.clearAuthToken();
+    this.appService.clearLoggedInUserName();
     this.isLoggedIn = false;
+    this.loggedInUserName = "";
     this.router.navigate(['/auth']);
+  }
+
+  goHome(){
+    this.router.navigate(['/chat']);
   }
 }

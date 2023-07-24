@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-chat',
@@ -11,37 +12,45 @@ export class ChatComponent implements OnInit {
   chatHistory: any[] = []; // Initialize an empty array
   selectedChat: any;
   messageInput: string = '';
-  loggedInUserName: string = ''; // Add a variable to store the name of the logged-in user
+  loggedInUserName: string = ''; 
+  isLoggedIn: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private appService: AppService) {}
 
   ngOnInit(): void {
     // Fetch the logged-in user's name from localStorage
-    const loggedInUserName = localStorage.getItem("name");
-    if (loggedInUserName) {
-      this.loggedInUserName = loggedInUserName;
-    }
+    this.loggedInUserName = this.appService.getLoggedInUserName();
+    this.isLoggedIn = !!this.appService.getAuthToken();
 
     // Fetch chat history when the component initializes
     this.fetchChatHistory();
   }
+  fetchUserData(): { authToken: string} {
+    const authToken = localStorage.getItem('authToken') || '';
+    this.loggedInUserName = localStorage.getItem('name') || '';
+    return { authToken };
+  }
 
   fetchChatHistory() {
-    const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
-      // Handle the case when the user is not authenticated or the token has expired.
+    if (!this.isLoggedIn) {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("name");
+      this.appService.clearAuthToken();
+      this.appService.clearLoggedInUserName();
+      this.isLoggedIn = false;
+      this.loggedInUserName = "";
       console.error('User is not authenticated or token has expired.');
-      // Redirect to the auth page if needed
       this.router.navigate(['/auth'])
       return;
     }
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': authToken
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': this.appService.getAuthToken()
     });
 
-    this.http.get<any[]>('https://dark-red-spider-robe.cyclic.app/user/chat-history', {
+    this.http.get<any[]>('https://dark-red-spider-robe.cyclic.app/user/chat_history', {
       headers 
     })
       .subscribe(
@@ -61,7 +70,9 @@ export class ChatComponent implements OnInit {
           }
         },
         (error) => {
-          // Handle errors appropriately, e.g., redirect to auth page for token expiration.
+          localStorage.removeItem("name")
+          this.loggedInUserName = ""
+          localStorage.removeItem("authToken")
           console.error('Error fetching chat history:', error);
           this.router.navigate(['/auth'])
         }
@@ -103,10 +114,10 @@ export class ChatComponent implements OnInit {
     // Replace this with the logic to send the question to the backend
     const authToken = localStorage.getItem("authToken");
     if (!authToken) {
-      // Handle the case when the user is not authenticated or the token has expired.
+      localStorage.removeItem("name")
+      this.loggedInUserName = ""
       console.error('User is not authenticated or token has expired.');
-      // Redirect to the auth page if needed
-      // this.router.navigate(['/auth']); // Don't forget to import the Router service.
+      this.router.navigate(['/auth']);
       return;
     }
 
@@ -115,18 +126,26 @@ export class ChatComponent implements OnInit {
       'Authorization': authToken
     });
 
-    this.http.post<any>('http://localhost:5000/user/question', body, {
+    this.http.post<any>('https://dark-red-spider-robe.cyclic.app/user/question', body, {
       headers 
     })
       .subscribe(
         (response) => {
-          // Once the question is sent successfully, update the chat history
-          const message = response.response;
-          this.selectedChat.chat_thread = message
+          this.selectedChat = response
+          for(let i = 0; i < this.chatHistory.length; i++){
+            if(this.chatHistory[0].id == this.selectedChat.id){
+              this.chatHistory[0].chat_thread = this.selectedChat.chat_thread
+            }
+          }
+
+          console.log(this.chatHistory)
         },
         (error) => {
           console.error('Error posting question:', error);
-          // Handle error appropriately, e.g., show error message to the user.
+          localStorage.removeItem("name")
+          this.loggedInUserName = ""
+          localStorage.removeItem("authToken")
+          this.router.navigate(['/auth']);
         }
       );
   }

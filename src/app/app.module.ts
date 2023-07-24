@@ -15,6 +15,9 @@ import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ChatComponent } from './chat/chat.component';
+import { AppService } from './app.service';
+import { AdminLoginPageComponent } from './admin-login-page/admin-login-page.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { ChatComponent } from './chat/chat.component';
     AuthComponent,
     LoginComponent,
     SignupComponent,
-    ChatComponent
+    ChatComponent,
+    AdminLoginPageComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -34,9 +39,9 @@ import { ChatComponent } from './chat/chat.component';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

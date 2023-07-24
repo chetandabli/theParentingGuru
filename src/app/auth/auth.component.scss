@@ -1,9 +1,86 @@
-/* auth.component.scss */
-button.active {
-    color: red; /* Replace with your desired active button style */
-    /* Add any other styles you want for the active button */
-  }
-button{
-    background-color: black;
+/* Styles for the auth component */
+
+/* Center the auth container */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 400px;
+  margin: auto;
+  margin-top: 30px;
+  border-radius: 10px;
+  border: 1px solid #97BC62;
+  padding: 30px;
+  background-color: #97BC62;
 }
-  
+
+/* Style the navigation buttons */
+.auth-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#login {
+  color: #eeeeee;
+  border: 2px solid #97BC62;
+  outline: none;
+  background-color: #97BC62;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin: 4px;
+  border-radius: 4px;
+}
+#signup{
+  color: #eeeeee;
+  border: 2px solid #97BC62;
+  outline: none;
+  background-color: #97BC62;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 16px;
+  margin: 4px;
+  border-radius: 4px;
+}
+
+/* Highlight the active navigation button */
+button.mat-button.active {
+  background-color: #2C5F2D;
+}
+
+/* Apply the chat styles to the login and signup components */
+.app-login,
+.app-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #97BC62;
+  flex: 1;
+  height: 100%;
+  padding-top: 40px; /* To give some space above the forms */
+}
+
+/* Style the input fields in the login and signup components */
+.app-login mat-form-field,
+.app-signup mat-form-field {
+  width: 300px;
+  margin: 8px;
+}
+
+/* Style the login and signup buttons */
+.app-login button[type="submit"],
+.app-signup button[type="submit"] {
+  width: 300px;
+  background-color: #2C5F2D;
+  color: #fff;
+}
+
+/* On hover, change login and signup buttons color */
+.app-login button[type="submit"]:hover,
+.app-signup button[type="submit"]:hover {
+  background-color: #204120;
+}

@@ -1,10 +1,17 @@
-.navbar {
+  .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+    background-color: #2C5F2D;
+    border-bottom:1px solid #97BC62;
+    color: rgb(14, 13, 13);
+    padding: 10px 20px;
+    height: 40px;
+  }
+
+  img{
+    height: 100%;
+    cursor: pointer;
   }
   
   .logo {
@@ -19,14 +26,14 @@
   button {
     margin-left: 10px;
     padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
+    border: 2px solid #97BC62;
+    background-color: #2C5F2D;
+    font-weight: 700;
+    color: #cccccc;
   }
   
   button:hover {
-    background-color: #0056b3;
+    background-color: #2b552b;
   }
-  

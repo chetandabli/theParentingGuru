@@ -1,0 +1,29 @@
+<p>admin-dashboard works!</p>
+<!-- admin-dashboard.component.html -->
+
+<h1>Admin Dashboard</h1>
+
+<!-- Display chat threads without feedback -->
+<div *ngIf="chatThreadsWithoutFeedback.length > 0">
+  <h2>Chat Threads without Feedback</h2>
+  <ul>
+    <li *ngFor="let chatThread of chatThreadsWithoutFeedback">
+      <div>
+        <p><strong>User ID:</strong> {{ chatThread.user_id }}</p>
+        <p><strong>Chat Thread:</strong></p>
+        <pre>{{ chatThread.chat_thread | json }}</pre>
+        <button (click)="submitFeedback(chatThread.id, 5, 'Great conversation!')">5 Stars</button>
+        <button (click)="submitFeedback(chatThread.id, 4, 'Good conversation')">4 Stars</button>
+        <button (click)="submitFeedback(chatThread.id, 3, 'Average conversation')">3 Stars</button>
+        <button (click)="submitFeedback(chatThread.id, 2, 'Not so great')">2 Stars</button>
+        <button (click)="submitFeedback(chatThread.id, 1, 'Poor conversation')">1 Star</button>
+        <button (click)="submitFeedback(chatThread.id, 0, '')">No Rating</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Message when there are no chat threads without feedback -->
+<div *ngIf="chatThreadsWithoutFeedback.length === 0">
+  <p>No chat threads without feedback found.</p>
+</div>
