@@ -136,12 +136,10 @@ export class ChatComponent implements OnInit {
           this.isLoading = false;
           this.selectedChat = response
           for(let i = 0; i < this.chatHistory.length; i++){
-            if(this.chatHistory[0].id == this.selectedChat.id){
-              this.chatHistory[0].chat_thread = this.selectedChat.chat_thread
+            if(this.chatHistory[i].id == this.selectedChat.id){
+              this.chatHistory[i].chat_thread = this.selectedChat.chat_thread
             }
           }
-
-          console.log(this.chatHistory)
         },
         (error) => {
           this.isLoading = false;
